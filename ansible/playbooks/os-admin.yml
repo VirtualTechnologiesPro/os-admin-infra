@@ -1,0 +1,38 @@
+---
+- name: Administrar instancia OSadmin
+  hosts: os-admin
+  become: true
+  connection: ssh
+  gather_facts: true
+  vars_files:
+    - ../vault/os-admin.yaml
+
+  pre_tasks:
+    - name: Importado de roles desde collections
+      include_role:
+        name: "{{ role_name }}"
+      loop:
+        #- matiuhart.base_configs.users
+        #- matiuhart.base_configs.base_packages_and_configs
+        #- matiuhart.docker.docker_install
+        - matiuhart.varios.nginx_ssl_proxy
+      loop_control:
+        loop_var: role_name
+
+  tasks:
+    - name: Verificando si existen claves ssh para usuario deployments
+      stat:
+        path: '{{ inventory_dir }}/roles/ssh/pub_keys/ssh-keys_deployments/'
+      register: id_rsa_status
+      delegate_to: localhost
+
+    - name: Copiado de llaves ssh para usuario deployments
+      copy:
+        src: '{{ inventory_dir }}/roles/ssh/pub_keys/ssh-keys_deployments/'
+        dest: /home/deployments/.ssh/
+        decrypt: yes
+        owner: deployments
+        group: deployments
+        mode: 0400
+      when: id_rsa_status.stat.exists
+

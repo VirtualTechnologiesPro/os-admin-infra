@@ -1,0 +1,41 @@
+---
+#
+## nginx_ssl_proxy role vars
+#
+
+# Certbot parameters
+#certbot_admin_email: virtualtechnologiespro@gmail.com
+
+# Nginx parameters
+vhosts:
+  - vhost_name: www.osadmin.com.ar
+    aditional_vhost_names: osadmin.com.ar
+    proxy_pass_host:
+    proxy_pass_port: 4173
+    extra_https_local_root_site_configs:
+    extra_http_local_root_site_configs:
+
+  - vhost_name: api.osadmin.com.ar
+    proxy_pass_host:
+    proxy_pass_port: 5000
+    extra_https_local_root_site_configs:
+    extra_http_local_root_site_configs:
+
+
+  - vhost_name: dev.osadmin.com.ar
+    proxy_pass_host:
+    proxy_pass_port: 4174
+    extra_https_local_root_site_configs:
+    extra_http_local_root_site_configs:
+
+  - vhost_name: dev-api.osadmin.com.ar
+    proxy_pass_host:
+    proxy_pass_port: 5005
+    extra_https_local_root_site_configs:
+    extra_http_local_root_site_configs:
+
+  - vhost_name: test.osadmin.com.ar
+    proxy_pass_host:
+    proxy_pass_port: 5005
+    extra_https_local_root_site_configs:
+    extra_http_local_root_site_configs:

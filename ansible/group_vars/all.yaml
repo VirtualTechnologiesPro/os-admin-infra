@@ -1,0 +1,57 @@
+---
+#
+## Ansible config parameters
+#
+ansible_user: root
+ansible_sudo_pass: "{{ vault_ansible_sudo_pass | default()}}"
+
+ansible_python_interpreter: /usr/bin/python3
+
+docker_pip_executable: pip3
+
+#
+## Users definitions
+#
+# docker_users:
+#   - dario
+#   - ariel
+#   - alan
+#   - deployments
+#   - matias
+
+users:
+  - username: "dario"
+    password: "$6$FE8PwBxVeB4XcFgR$emW0270rmgl.t8vZz4EM9S76xCvIGVBhZqxg.P9BcBJBD7nAVVEf7SlhhRRMouGJjyW6vG8TOXXsU/wDpTweG0"
+    groups:
+      - sudo
+      - docker
+
+  - username: "ariel"
+    password: "$6$dpHc2CfAyy7VjUxb$eO4GabTIKXQ/ol5UPin6tpTeS6ntBzDx3U8IVDEnydC9t1H/OIjEXA2Xsov0PKeUMaLW1zmO3fAevk41QEoeV/"
+    groups:
+      - sudo
+      - docker
+
+  - username: "alan"
+    password: "$6$dpHc2CfAyy7VjUxb$eO4GabTIKXQ/ol5UPin6tpTeS6ntBzDx3U8IVDEnydC9t1H/OIjEXA2Xsov0PKeUMaLW1zmO3fAevk41QEoeV/"
+    groups:
+      - sudo
+      - docker
+
+  - username: "deployments"
+    password: "$6$dpHc2CfAyy7VjUxb$eO4GabTIKXQ/ol5UPin6tpTeS6ntBzDx3U8IVDEnydC9t1H/OIjEXA2Xsov0PKeUMaLW1zmO3fAevk41QEoeV/"
+    groups:
+      - docker
+
+  - username: "matias"
+    password: "$6$FE8PwBxVeB4XcFgR$emW0270rmgl.t8vZz4EM9S76xCvIGVBhZqxg.P9BcBJBD7nAVVEf7SlhhRRMouGJjyW6vG8TOXXsU/wDpTweG0"
+    groups:
+      - sudo
+      - docker
+
+  # - username: "root"
+  #   password: "$6$FE8PwBxVeB4XcFgR$emW0270rmgl.t8vZz4EM9S76xCvIGVBhZqxg.P9BcBJBD7nAVVEf7SlhhRRMouGJjyW6vG8TOXXsU/wDpTweG0"
+  #   groups:
+  #     - root
+
+remove_users:

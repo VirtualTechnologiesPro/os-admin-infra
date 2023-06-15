@@ -1,0 +1,11 @@
+# Para agregar un host, es necesario adicionar parametros de conexion para cada host en .ssh/config
+
+os-admin
+[instancias]
+
+[dockers]
+os-admin
+
+# [mi_otro_grupo:children]
+# instancias
+# dockers
