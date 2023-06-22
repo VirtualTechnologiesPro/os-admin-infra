@@ -21,20 +21,13 @@ vhosts:
     extra_https_local_root_site_configs:
     extra_http_local_root_site_configs:
 
-
   - vhost_name: dev.osadmin.com.ar
     proxy_pass_host:
-    proxy_pass_port: 4174
+    proxy_pass_port: 3000
     extra_https_local_root_site_configs:
     extra_http_local_root_site_configs:
 
   - vhost_name: dev-api.osadmin.com.ar
-    proxy_pass_host:
-    proxy_pass_port: 5005
-    extra_https_local_root_site_configs:
-    extra_http_local_root_site_configs:
-
-  - vhost_name: test.osadmin.com.ar
     proxy_pass_host:
     proxy_pass_port: 5005
     extra_https_local_root_site_configs:

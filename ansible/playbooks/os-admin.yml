@@ -6,16 +6,20 @@
   gather_facts: true
   vars_files:
     - ../vault/os-admin.yaml
+  vars:
+    databases:
+      - OS_ADMIN_DB
+      - os_admin_db_dev
 
   pre_tasks:
     - name: Importado de roles desde collections
       include_role:
         name: "{{ role_name }}"
       loop:
-        #- matiuhart.base_configs.users
-        #- matiuhart.base_configs.base_packages_and_configs
-        #- matiuhart.docker.docker_install
+        - matiuhart.base_configs.users
         - matiuhart.varios.nginx_ssl_proxy
+        - matiuhart.dbs.mysql
+        # - matiuhart.dbs.mysql_backups
       loop_control:
         loop_var: role_name
 
@@ -36,3 +40,34 @@
         mode: 0400
       when: id_rsa_status.stat.exists
 
+    - name: Creando bases de datos
+      community.mysql.mysql_db:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ databases }}"
+
+    - name: Crea usuario mysql os_admin
+      community.mysql.mysql_user:
+        name: os_admin
+        password: "{{ vault_mysql_os_admin_user_pwd }}"
+        host: "172.27.0.0/16"
+        priv:
+          'OS_ADMIN_DB.*': 'ALL,GRANT'
+        state: present
+
+    - name: Crea usuario mysql os_admin_dev
+      community.mysql.mysql_user:
+        name: os_admin_dev
+        password: "{{ vault_mysql_os_admin_dev_user_pwd }}"
+        host: "172.27.0.0/16"
+        priv:
+          'os_admin_db_dev.*': 'ALL,GRANT'
+        state: present
+
+    # - name: Cron para backups de DBs
+    #   cron:
+    #     name: "Backup {{ item }}"
+    #     minute: "0"
+    #     hour: "18"
+    #     job: "mysql_backups --database {{ item }} --path /home/backups --task dump --remove-old 15"
+    #   with_items: "{{ databases }}"

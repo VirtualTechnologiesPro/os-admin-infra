@@ -1,33 +1,37 @@
-# Conjuto de roles y playbooks de Ansible
-Las configuraciones mediante roles son aplicadas con archivos .yaml ubicados en la carpeta **servers** con el nombre de cada servidor. Si lo que deseamos es aplicar un playbook, podemos encontrarlos en **playbooks**
+# Collections de roles Ansible
 
-Para correr un playbook instalamos ansible modificamos el archivo inventory agregando/quitando equipos y ademas agregamos parametros de conexion en .ssh/config
-Lo ideal, es trabajar con una clave privada ssh que el host destino ya debe tener habilitada en el usuario que vayamos a utilizar para conectarnos y que éste sea miembro de sudo ya que en muchos casos vamos a necesitar permisos para realizar muchas de las tareas que existen en los playbooks.
+## Dependencias
+Para utilizar estos playbooks en necesario instalar Ansible y una serie de dependencias
+
+**Instalacion de Ansible**
+
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+**Instalacion de dependencias de roles**
+
+```
+ansible-galaxy collection install community.general -p collections 
+ansible-galaxy collection install community.windows -p collections 
+ansible-galaxy collection install ansible.posix -p collections
+ansible-galaxy collection install community.mysql -p collections 
+```
+**Instalacion de roles principales**
+
+Luego de instaladas las colecciones de dependencia instalar las principales
+
+```
+ansible-galaxy collection install --upgrade git@github.com:matiuhart/ansible-collections.git -p collections
+```
 
 ## Cómo corremos un playbook
-Para correr un playbook de un equipo agregado en inventario con usuario matias, solicite clave de sudo y conexion ssh 
+Para correr el playbook del servidor osadmin 
 
 ```
-ansible-playbook playbooks/base_configs.yaml --limit server1 -Kkv -u matias
+ansible-playbook playbooks/os-admin.yaml
 ```
-
-Tambien es posible correr el playbook sin agregar el equipo en el archivo inventory
-
-```
-ansible-playbook playbooks/base_configs.yaml -i 192.168.0.10, -Kkv -u matias
-```
-
-## Cómo corremos un conjunto de roles ya definidos para un servidor
-Cada servidor posee un archivo yaml en la carpeta *servers* con el nombre del mismo, en el cual se definen que roles se le aplican a ese equipo. En el caso de necesitar actualizar el estado de esos roles o modificarlos. En este caso se corren todos los roles asignados a *servidor1*, definiendo variables de entorno para la contraseña de sudo y otra para especificar el entorno para seleccionar configuraciones que se le aplican.
-
-
-```
-ansible-playbook playbooks/server1.yml -e "@vault/logistica.yaml" -e "logistica_environment=prod" -e "ansible_sudo_pass=$MY_PASS"
-```
-El parametro @vault/logistica.yaml permite cargar los secretos definidios en ese archivo y aplicarlos a la ejecucion del playbook y el parametro ansible_sudo_pass=$MY_PASS asigna el valor de password de sudo desde la variable de entorno $MY_PASS la cual fue definida desde bash antes de ejecutar el playbook.
 
 ## Definiendo secretos
-Vault creará un archivo en el path especificado, lo cifrará y nos va a permitir ingresar variables, texto e incluso cifrar archivos existentes como certificados o archivos comprimidos
+Vault creará un archivo en el path especificado, lo cifrará y nos va a permitir ingresar variables, texto e incluso cifrar archivos existentes como certificados o archivos comprimidos. Antes de poder realizar el cifrado, es necesario crear un archivo llamado _vaultpass_ en el raiz del proyecto y éste debe contener la clave para cifrar todos los secretos.
 
 
 **Crear secreto**
@@ -35,14 +39,14 @@ Vault creará un archivo en el path especificado, lo cifrará y nos va a permiti
 Creamos el secreto y automaticamente nos abrira un editor de texto dónde podemos especificar un texto o incluso definir una variable. Como buena práctica, es recomendable que todas la variables que se definan dentro de un vault comiencen con el prefijo vault_ de esta manera sabremos que esa variable es un secreto.
 
 ```
-ansible-vault create secrets/logistica.yaml
+ansible-vault create secrets/os-admin.yaml
 ```
 
 **Visualizar/editar secreto existente**
 
 ```
-ansible-vault edit secrets/logistica.yaml
-ansible-vault view secrets/logistica.yaml
+ansible-vault edit secrets/os-admin.yaml
+ansible-vault view secrets/os-admin.yaml
 ```
 
 **Cifrar archivo existente**
@@ -52,9 +56,12 @@ ansible-vault encrypt miArchivo.rar
 ```
 
 **Utilizar secretos**
+Para utilizar los secretos creados anteriormente, es necesario agregar en la configuración del playbook lo siguiente:
+
 
 ```
-ansible-playbook -i inventory -e "@secrets/logistica.yaml" -e "logistica_environment=[prod|stage|both]" server1.yml -e "ansible_sudo_pass=$MY_PASS" --vault-password-file=vaultpass
+  vars_files:
+    - ../vault/os-admin.yaml
 ```
 ## Buscar info de modulos y obtener ayuda
 
