@@ -21,13 +21,13 @@ docker_pip_executable: pip3
 
 users:
   - username: "dario"
-    password: "$6$FE8PwBxVeB4XcFgR$emW0270rmgl.t8vZz4EM9S76xCvIGVBhZqxg.P9BcBJBD7nAVVEf7SlhhRRMouGJjyW6vG8TOXXsU/wDpTweG0"
+    password: "$y$j9T$27zC./2HkF5i8LXXIP1Aq.$5fr722rjqWpvNc/2aAdP0f0XI2Tw4RKUDd8Y00vp7mC"
     groups:
       - sudo
       - docker
 
   - username: "ariel"
-    password: "$6$dpHc2CfAyy7VjUxb$eO4GabTIKXQ/ol5UPin6tpTeS6ntBzDx3U8IVDEnydC9t1H/OIjEXA2Xsov0PKeUMaLW1zmO3fAevk41QEoeV/"
+    password: "$y$j9T$E71GsSdSiSnpYQFQUGSEJ.$NHP17FkIUGhjdDxr.5S3bpGG6dIGkq50J9miSVy1l/3"
     groups:
       - sudo
       - docker
@@ -49,9 +49,9 @@ users:
       - sudo
       - docker
 
-  # - username: "root"
-  #   password: "$6$FE8PwBxVeB4XcFgR$emW0270rmgl.t8vZz4EM9S76xCvIGVBhZqxg.P9BcBJBD7nAVVEf7SlhhRRMouGJjyW6vG8TOXXsU/wDpTweG0"
-  #   groups:
-  #     - root
+  - username: "root"
+    password: "$y$j9T$E71GsSdSiSnpYQFQUGSEJ.$NHP17FkIUGhjdDxr.5S3bpGG6dIGkq50J9miSVy1l/3"
+    groups:
+      - root
 
 remove_users:
