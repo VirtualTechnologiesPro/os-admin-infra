@@ -8,26 +8,16 @@ Para utilizar estos playbooks en necesario instalar Ansible y una serie de depen
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
 **Instalacion de dependencias de roles**
-
+Es necesaria la instalación de algunas collections para poder ejecutar las tareas, para ello ejecutar el comando siguiente desde el el path del proyecto ansible.
 ```
-ansible-galaxy collection install community.general -p collections 
-ansible-galaxy collection install community.windows -p collections 
-ansible-galaxy collection install ansible.posix -p collections
-ansible-galaxy collection install community.mysql -p collections 
-```
-**Instalacion de roles principales**
-
-Luego de instaladas las colecciones de dependencia instalar las principales
-
-```
-ansible-galaxy collection install --upgrade git@github.com:matiuhart/ansible-collections.git -p collections
+ansible-galaxy install -r requeriments.yaml
 ```
 
 ## Cómo corremos un playbook
-Para correr el playbook del servidor osadmin 
+Para correr el playbook del servidor osadmin en modo test o dry-run
 
 ```
-ansible-playbook playbooks/os-admin.yaml
+ansible-playbook playbooks/os-admin.yaml -C
 ```
 
 ## Definiendo secretos
