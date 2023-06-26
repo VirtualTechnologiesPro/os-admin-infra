@@ -2,7 +2,7 @@
 #
 ## Ansible config parameters
 #
-ansible_user: root
+#ansible_user: root
 ansible_sudo_pass: "{{ vault_ansible_sudo_pass | default()}}"
 
 ansible_python_interpreter: /usr/bin/python3
