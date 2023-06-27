@@ -24,21 +24,21 @@
         loop_var: role_name
 
   tasks:
-    - name: Verificando si existen claves ssh para usuario deployments
-      stat:
-        path: '{{ inventory_dir }}/roles/ssh/pub_keys/ssh-keys_deployments/'
-      register: id_rsa_status
-      delegate_to: localhost
+#    - name: Verificando si existen claves ssh para usuario deployments
+#      stat:
+#        path: '{{ inventory_dir }}/roles/ssh/pub_keys/ssh-keys_deployments/'
+#      register: id_rsa_status
+#      delegate_to: localhost
 
-    - name: Copiado de llaves ssh para usuario deployments
-      copy:
-        src: '{{ inventory_dir }}/roles/ssh/pub_keys/ssh-keys_deployments/'
-        dest: /home/deployments/.ssh/
-        decrypt: yes
-        owner: deployments
-        group: deployments
-        mode: 0400
-      when: id_rsa_status.stat.exists
+#    - name: Copiado de llaves ssh para usuario deployments
+#      copy:
+#        src: '{{ inventory_dir }}/roles/ssh/pub_keys/ssh-keys_deployments/'
+#        dest: /home/deployments/.ssh/
+#        decrypt: yes
+#        owner: deployments
+#        group: deployments
+#        mode: 0400
+#      when: id_rsa_status.stat.exists
 
     - name: Creando bases de datos
       community.mysql.mysql_db:
