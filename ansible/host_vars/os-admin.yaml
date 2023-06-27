@@ -20,7 +20,7 @@ vhosts:
     proxy_pass_port: 5000
     extra_https_local_root_site_configs:
     extra_http_local_root_site_configs: |
-      client_max_body_size: 20M
+      client_max_body_size 10M;
 
   - vhost_name: dev.osadmin.com.ar
     proxy_pass_host:
@@ -33,4 +33,4 @@ vhosts:
     proxy_pass_port: 5005
     extra_https_local_root_site_configs:
     extra_http_local_root_site_configs: |
-      client_max_body_size: 20M
+      client_max_body_size 10M;

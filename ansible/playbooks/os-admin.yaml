@@ -64,6 +64,15 @@
           'os_admin_db_dev.*': 'ALL,GRANT'
         state: present
 
+    - name: Crea usuario mysql os_admin_dev
+      community.mysql.mysql_user:
+        name: os_admin_dev
+        password: "{{ vault_mysql_os_admin_dev_user_pwd }}"
+        host: "localhost"
+        priv:
+          'os_admin_db_dev.*': 'ALL,GRANT'
+        state: present
+
     # - name: Cron para backups de DBs
     #   cron:
     #     name: "Backup {{ item }}"

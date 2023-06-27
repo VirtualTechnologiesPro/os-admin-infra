@@ -9,3 +9,4 @@ vaultpass
 playbook_run_log.txt
 *.log
 collections
+ansible/ansible.logs
