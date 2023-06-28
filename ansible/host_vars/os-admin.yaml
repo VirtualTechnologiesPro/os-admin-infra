@@ -21,6 +21,9 @@ vhosts:
     extra_https_local_root_site_configs:
     extra_http_local_root_site_configs: |
       client_max_body_size 10M;
+      proxy_read_timeout 300;
+      proxy_connect_timeout 300;
+      proxy_send_timeout 300;
 
   - vhost_name: dev.osadmin.com.ar
     proxy_pass_host:
@@ -34,3 +37,6 @@ vhosts:
     extra_https_local_root_site_configs:
     extra_http_local_root_site_configs: |
       client_max_body_size 10M;
+      proxy_read_timeout 300;
+      proxy_connect_timeout 300;
+      proxy_send_timeout 300;
